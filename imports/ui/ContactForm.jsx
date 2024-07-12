@@ -14,8 +14,7 @@ export const ContactForm = () => {
     setError(message);
         setTimeout(() => {
           setError("");
-        }, 5000);
-        
+        }, 5000);  
   }
 
   const showSuccess = ({ message }) => {

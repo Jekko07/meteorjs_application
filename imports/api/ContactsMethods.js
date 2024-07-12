@@ -7,14 +7,18 @@ Meteor.methods({
     check(name, String);
     check(email, String);
     check(imageUrl, String);
-        if(!name) {
-          throw new Meteor.Error("Name is required.")  
-        }
-        return ContactsCollection.insert({ name, email, imageUrl, createdAt: new Date() });
+    if (!name) {
+      throw new Meteor.Error("Name is required.")
+    }
+    return ContactsCollection.insert({ name, email, imageUrl, createdAt: new Date() });
   },
   'contacts.remove'({ contactId }) {
     check(contactId, String);
     ContactsCollection.remove(contactId);
+  },
+  'contacts.archive'({ contactId }) {
+    check(contactId, String);
+    ContactsCollection.update({ _id: contactId }, { $set: { archived: true } });
   }
 })
 
