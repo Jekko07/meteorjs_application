@@ -13,32 +13,57 @@ export const ContactForm = () => {
 
   const showError = ({ message }) => {
     setError(message);
-        setTimeout(() => {
-          setError("");
-        }, 5000);  
-  }
+    setTimeout(() => {
+      setError("");
+    }, 5000);
+  };
 
   const showSuccess = ({ message }) => {
     setSuccess(message);
-        setTimeout(() => {
-          setSuccess("");
-        }, 5000);
-  }
+    setTimeout(() => {
+      setSuccess("");
+    }, 5000);
+  };
 
   const saveContact = () => {
-    Meteor.call('contacts.insert', { name, email, imageUrl, walletId }, (errorResponse) => {
-      if (errorResponse) {
-        showError({ message: errorResponse.error });
-      } else {
-        setName("");
-        setEmail("");
-        setImageUrl("");
-        setWalletId("");
-        showSuccess({ message: "Contact saved." });
+    //client side validation
+    if (!name) {
+      showError({ message: "Name is required." });
+      return;
+    }
+
+    if (!email) {
+      showError({ message: "Email is required." });
+      return;
+    }
+
+    if (!imageUrl) {
+      showError({ message: "Image URL is required." });
+      return;
+    }
+
+    if (!walletId) {
+      showError({ message: "Wallet ID is required." });
+      return;
+    }
+
+    // If all fields are valid, proceed with the Meteor call
+    Meteor.call(
+      "contacts.insert",
+      { name, email, imageUrl, walletId },
+      (errorResponse) => {
+        if (errorResponse) {
+          showError({ message: errorResponse.error });
+        } else {
+          setName("");
+          setEmail("");
+          setImageUrl("");
+          setWalletId("");
+          showSuccess({ message: "Contact saved." });
+        }
       }
-    });
-    
-  }
+    );
+  };
 
   return (
     <form className="mt-6">
@@ -46,7 +71,10 @@ export const ContactForm = () => {
       {success && <SuccessAlert message={success} />}
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
             Name
           </label>
           <input
@@ -59,7 +87,10 @@ export const ContactForm = () => {
         </div>
 
         <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email
           </label>
           <input
@@ -72,7 +103,10 @@ export const ContactForm = () => {
         </div>
 
         <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-gray-700"
+          >
             Image URL
           </label>
           <input
@@ -83,9 +117,12 @@ export const ContactForm = () => {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
-        
+
         <div className="col-span-6">
-          <label htmlFor="walletId" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="walletId"
+            className="block text-sm font-medium text-gray-700"
+          >
             Wallet ID
           </label>
           <input
@@ -107,5 +144,5 @@ export const ContactForm = () => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};

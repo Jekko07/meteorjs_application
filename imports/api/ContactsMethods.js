@@ -2,11 +2,11 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 import { ContactsCollection } from "./ContactsCollection";
 
-Meteor.methods({
+Meteor.methods({  
   'contacts.insert'({ name, email, imageUrl, walletId }) {
     check(name, String);
     check(email, String);
-    check(imageUrl, String);
+    check(imageUrl, String  );
     check(walletId, String);
     if (!name) {
       throw new Meteor.Error("Name is required.")
