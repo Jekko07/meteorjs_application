@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { ContactsCollection } from "../api/ContactsCollection";
 import { useSubscribe, useFind } from "meteor/react-meteor-data";
 import { ErrorAlert } from "./components/ErrorAlert";
+import { Loading } from "./components/Loading";
 
 export const ContactList = () => {
   const isLoading = useSubscribe("contacts");
@@ -14,30 +15,18 @@ export const ContactList = () => {
 
   const [success, setSuccess] = React.useState("");
 
-  const showSuccess = ({ message }) => { 
+  const showSuccess = ({ message }) => {
     setSuccess(message);
     setTimeout(() => {
       setSuccess("");
     }, 5000);
-  }; 
+  };
 
   const archiveContact = (event, _id) => {
     event.preventDefault();
     Meteor.call("contacts.archive", { contactId: _id });
     showSuccess({ message: "Contact archived" });
   };
-
-  if (isLoading()) {
-    return (
-      <div>
-        <div className="mt-10">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            Loading...
-          </h3>
-        </div>
-      </div>
-    );
-  }
 
   const ContactItem = memo(({ contact }) => {
     return (
@@ -49,7 +38,7 @@ export const ContactList = () => {
               src={contact.imageUrl}
               alt=""
             />
-          </div> 
+          </div>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-gray-900 truncate">
               {contact.name}
@@ -74,6 +63,10 @@ export const ContactList = () => {
       </li>
     );
   });
+
+  if (isLoading()) {
+    return <Loading />;
+  }
 
   return (
     <div>

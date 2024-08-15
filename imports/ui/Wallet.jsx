@@ -1,11 +1,24 @@
 import React from "react";
 import { Modal } from "./components/Modal";
+// import { SelectContact } from "./components/SelectContact";
+import { SelectContact } from "/imports/ui/components/SelectContact";
+import { ContactsCollection } from "../api/ContactsCollection";
+import { useSubscribe, useFind } from "meteor/react-meteor-data";
+import { Loading } from "./components/Loading";
 
 export const Wallet = () => {
+  const isLoadingContacts = useSubscribe("contacts");
+  const contacts = useFind(() =>
+    ContactsCollection.find(
+      { archived: { $ne: true } },
+      { sort: { createdAt: -1 } }
+    )
+  );
+
   const [open, setOpen] = React.useState(false);
   const [isTransferring, setIsTransferring] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
-  const [destinationWallet, setDestinationWallet] = React.useState("");
+  const [destinationWallet, setDestinationWallet] = React.useState({});
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const wallet = {
@@ -17,6 +30,10 @@ export const Wallet = () => {
   const addTransaction = () => {
     console.log("New transaction", amount, destinationWallet);
   };
+
+  if (isLoadingContacts()) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -73,18 +90,11 @@ export const Wallet = () => {
           <>
             {isTransferring && (
               <div>
-                <label
-                  htmlFor="destination"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Destination Wallet
-                </label>
-                <input
-                  type="string"
-                  id="destination"
-                  value={destinationWallet}
-                  onChange={(e) => setDestinationWallet(e.target.value)}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <SelectContact
+                  title="Destination contact"
+                  contacts={contacts}
+                  contact={destinationWallet}
+                  setContact={setDestinationWallet}
                 />
               </div>
             )}

@@ -1,9 +1,12 @@
-import React, { useState }  from "react";
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 
-
-export const Modal = ({ open, setOpen, title, body, footer, errorMessage}) => {
-  
+export const Modal = ({ open, setOpen, title, body, footer, errorMessage }) => {
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop
@@ -18,16 +21,20 @@ export const Modal = ({ open, setOpen, title, body, footer, errorMessage}) => {
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="sm:flex sm:items-start">
-                
-                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
+              <div className="">
+                <div>
+                  <DialogTitle
+                    as="h3"
+                    className="text-base font-semibold leading-6 text-gray-900"
+                  >
                     {title}
                   </DialogTitle>
                   <div className="mt-2">
                     {errorMessage && (
-                        <h3 className="text-sm font-medium text-red-800">{errorMessage}</h3>
-                      )}
+                      <h3 className="text-sm font-medium text-red-800">
+                        {errorMessage}
+                      </h3>
+                    )}
                     {body}
                   </div>
                 </div>
@@ -40,5 +47,5 @@ export const Modal = ({ open, setOpen, title, body, footer, errorMessage}) => {
         </div>
       </div>
     </Dialog>
-  )
-}
+  );
+};
