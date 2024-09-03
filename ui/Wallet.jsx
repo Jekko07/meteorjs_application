@@ -1,15 +1,15 @@
-import { Meteor } from "meteor/meteor";
-import React from "react";
-import { useSubscribe, useFind } from "meteor/react-meteor-data";
-import { Modal } from "./components/Modal";
-import { SelectContact } from "./components/SelectContact";
-import { ContactsCollection } from "../api/collections/ContactsCollection";
-import { WalletsCollection } from "../api/collections/WalletsCollection";
-import { Loading } from "./components/Loading";
+import { Meteor } from 'meteor/meteor';
+import React from 'react';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import { Modal } from './components/Modal.jsx';
+import { SelectContact } from './components/SelectContact.jsx';
+import { ContactsCollection } from '../api/collections/ContactsCollection';
+import { WalletsCollection } from '../api/collections/WalletsCollection';
+import { Loading } from './components/Loading.jsx';
 
 export const Wallet = () => {
-  const isLoadingContacts = useSubscribe("contacts");
-  const isLoadingWallets = useSubscribe("wallets");
+  const isLoadingContacts = useSubscribe('contacts');
+  const isLoadingWallets = useSubscribe('wallets');
   const contacts = useFind(() =>
     ContactsCollection.find(
       { archived: { $ne: true } },
@@ -22,9 +22,9 @@ export const Wallet = () => {
 
   React.useEffect(() => {
     if (!walletLoading && !wallet) {
-      Meteor.call("wallets.insert", (error, result) => {
+      Meteor.call('wallets.insert', (error, result) => {
         if (error) {
-          console.error("Error creating wallet:", error);
+          console.error('Error creating wallet:', error);
         }
       });
     }
@@ -34,36 +34,37 @@ export const Wallet = () => {
   const [isTransferring, setIsTransferring] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
   const [destinationWallet, setDestinationWallet] = React.useState({});
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const addTransaction = () => {
     if (!wallet) {
-      setErrorMessage("Wallet not initialized.");
+      setErrorMessage('Wallet not initialized.');
       return;
     }
 
     Meteor.call(
-      "transactions.insert",
+      'transactions.insert',
       {
         isTransferring,
         sourceWalletId: wallet._id,
-        destinationWalletId: destinationWallet?.walletId || "",
-        amount: Number(amount)
+        destinationWalletId: destinationWallet?.walletId || '',
+        amount: Number(amount),
       },
       (errorResponse) => {
         if (errorResponse) {
           if (errorResponse.error) {
             setErrorMessage(errorResponse.error);
           } else {
-            errorResponse.details?.forEach((error) => {
-              setErrorMessage(error.message);
-            });
+            // Properly handle and log each error message
+            const errorMessages =
+              errorResponse.details?.map((error) => error.message) || [];
+            setErrorMessage(errorMessages.join('. ')); // Combine messages into a single string
           }
         } else {
           setOpen(false);
           setDestinationWallet({});
           setAmount(0);
-          setErrorMessage("");
+          setErrorMessage('');
         }
       }
     );
@@ -77,13 +78,13 @@ export const Wallet = () => {
     <>
       {wallet ? (
         <>
-          <div className="flex font-sans shadow-md my-10">
+          <div className="my-10 flex font-sans shadow-md">
             <form className="flex-auto p-6">
               <div className="flex flex-wrap">
                 <div className="w-full flex-none text-sm font-medium text-gray-500">
                   Main Account
                 </div>
-                <div className="w-full flex-none text-sm font-medium text-gray-500 mt-2">
+                <div className="mt-2 w-full flex-none text-sm font-medium text-gray-500">
                   Wallet ID:
                 </div>
                 <h1 className="flex-auto text-lg font-semibold text-gray-700">
@@ -92,13 +93,13 @@ export const Wallet = () => {
                 <div className="text-2xl font-bold text-gray-500">{`${wallet.balance} ${wallet.currency}`}</div>
               </div>
               <div className="flex space-x-4 text-sm font-medium">
-                <div className="flex-auto flex space-x-4 mt-4">
+                <div className="mt-4 flex flex-auto space-x-4">
                   <button
                     type="button"
-                    className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                     onClick={() => {
                       setIsTransferring(false);
-                      setErrorMessage("");
+                      setErrorMessage('');
                       setOpen(true);
                     }}
                   >
@@ -106,10 +107,10 @@ export const Wallet = () => {
                   </button>
                   <button
                     type="button"
-                    className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                     onClick={() => {
                       setIsTransferring(true);
-                      setErrorMessage("");
+                      setErrorMessage('');
                       setOpen(true);
                     }}
                   >
@@ -125,8 +126,8 @@ export const Wallet = () => {
             setOpen={setOpen}
             title={
               isTransferring
-                ? "Transfer money to other wallet"
-                : "Add money to your wallet"
+                ? 'Transfer money to other wallet'
+                : 'Add money to your wallet'
             }
             body={
               <>
@@ -154,7 +155,7 @@ export const Wallet = () => {
                     value={amount}
                     min={0}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="0.00"
                   />
                 </div>
@@ -163,10 +164,10 @@ export const Wallet = () => {
             footer={
               <button
                 type="button"
-                className="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                 onClick={addTransaction}
               >
-                {isTransferring ? "Transfer" : "Add"}
+                {isTransferring ? 'Transfer' : 'Add'}
               </button>
             }
             errorMessage={errorMessage}

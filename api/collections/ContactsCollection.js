@@ -1,8 +1,8 @@
-import { Mongo } from "meteor/mongo";
-import SimpleSchema from "simpl-schema";
-import "meteor/aldeed:collection2/static";
+import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
+import 'meteor/aldeed:collection2/static';
 
-export const ContactsCollection = new Mongo.Collection("contacts");
+export const ContactsCollection = new Mongo.Collection('contacts');
 
 const ContactsSchema = new SimpleSchema({
   name: {

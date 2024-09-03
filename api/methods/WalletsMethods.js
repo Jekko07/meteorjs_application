@@ -1,9 +1,9 @@
-import { Meteor } from "meteor/meteor";
-import { WalletsCollection } from "../collections/WalletsCollection";
-import "meteor/aldeed:collection2/static";
+import { Meteor } from 'meteor/meteor';
+import { WalletsCollection } from '../collections/WalletsCollection';
+import 'meteor/aldeed:collection2/static';
 
 Meteor.methods({
-  "wallets.insert"() {
+  'wallets.insert'() {
     // Check if a wallet already exists for the user
     const existingWallet = WalletsCollection.findOne();
 
@@ -15,10 +15,10 @@ Meteor.methods({
     // Create a new wallet if none exists
     const walletId = WalletsCollection.insert({
       balance: 0,
-      currency: "PHP",
-      createdAt: new Date()
+      currency: 'PHP',
+      createdAt: new Date(),
     });
 
     return walletId;
-  }
+  },
 });

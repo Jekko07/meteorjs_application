@@ -1,10 +1,15 @@
-import React from "react";
-import { Meteor } from "meteor/meteor";
-import { render } from "react-dom";
-import { App } from "/imports/ui/App";
-import "../imports/api/methods/ContactsMethods"; //import so that meteor will support optimistic ui
-import "../imports/api/methods/TransactionsMethods";
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { createRoot } from 'react-dom/client'; // Import createRoot
+import { App } from '../ui/App.jsx';
+import '../api/methods/ContactsMethods'; // Import for Meteor's optimistic UI
+import '../api/methods/TransactionsMethods';
 
 Meteor.startup(() => {
-  render(<App />, document.getElementById("react-target"));
+  // Get the root DOM element
+  const rootElement = document.getElementById('react-target');
+  // Create a root using createRoot
+  const root = createRoot(rootElement);
+  // Render the App component
+  root.render(<App />);
 });

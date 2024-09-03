@@ -1,11 +1,14 @@
-import { Meteor } from "meteor/meteor";
-import { TransactionsCollection } from "../collections/TransactionsCollection";
-import SimpleSchema from "simpl-schema";
-import { ADD_TYPE, TRANSFER_TYPE } from "../collections/TransactionsCollection";
-import "meteor/aldeed:collection2/static";
+import { Meteor } from 'meteor/meteor';
+import {
+  TransactionsCollection,
+  ADD_TYPE,
+  TRANSFER_TYPE,
+} from '../collections/TransactionsCollection';
+import SimpleSchema from 'simpl-schema';
+import 'meteor/aldeed:collection2/static';
 
 Meteor.methods({
-  "transactions.insert"(args) {
+  'transactions.insert'(args) {
     const schema = new SimpleSchema({
       isTransferring: {
         type: Boolean,

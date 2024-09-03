@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
-} from "@headlessui/react";
+} from '@headlessui/react';
 
-export const Modal = ({ open, setOpen, title, body, footer, errorMessage }) => {
-  return (
+export const Modal = ({ open, setOpen, title, body, footer, errorMessage }) => (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop
         transition
@@ -48,4 +47,3 @@ export const Modal = ({ open, setOpen, title, body, footer, errorMessage }) => {
       </div>
     </Dialog>
   );
-};
