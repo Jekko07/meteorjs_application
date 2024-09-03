@@ -32,12 +32,7 @@
       "@quave/quave"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "meteor npm test && lint-staged",
-      "post-commit": "git update-index --again"
-    }
-  },
+  
   "lint-staged": {
     "*.js": [
       "eslint --fix",
