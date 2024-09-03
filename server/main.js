@@ -10,7 +10,6 @@ import "../imports/api/methods/WalletsMethods";
 import { WalletsCollection } from "../imports/api/collections/WalletsCollection";
 import "../infra/CustomError";
 
-
 Meteor.startup(() => {
   if (!WalletsCollection.find().count()) {
     WalletsCollection.insert({
