@@ -6,10 +6,8 @@ import '../api/methods/ContactsMethods'; // Import for Meteor's optimistic UI
 import '../api/methods/TransactionsMethods';
 
 Meteor.startup(() => {
-  // Get the root DOM element
-  const rootElement = document.getElementById('react-target');
   // Create a root using createRoot
-  const root = createRoot(rootElement);
+  const root = createRoot( document.getElementById('react-target'));
   // Render the App component
   root.render(<App />);
 });

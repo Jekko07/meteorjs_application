@@ -22,7 +22,7 @@ export const Wallet = () => {
 
   React.useEffect(() => {
     if (!walletLoading && !wallet) {
-      Meteor.call('wallets.insert', (error, result) => {
+      Meteor.call('wallets.insert', (error) => {
         if (error) {
           console.error('Error creating wallet:', error);
         }
@@ -74,108 +74,106 @@ export const Wallet = () => {
     return <Loading />;
   }
 
+  if (!wallet) {
+    return <Loading />;
+  }
+
   return (
-    <>
-      {wallet ? (
-        <>
-          <div className="my-10 flex font-sans shadow-md">
-            <form className="flex-auto p-6">
-              <div className="flex flex-wrap">
-                <div className="w-full flex-none text-sm font-medium text-gray-500">
-                  Main Account
-                </div>
-                <div className="mt-2 w-full flex-none text-sm font-medium text-gray-500">
-                  Wallet ID:
-                </div>
-                <h1 className="flex-auto text-lg font-semibold text-gray-700">
-                  {wallet._id}
-                </h1>
-                <div className="text-2xl font-bold text-gray-500">{`${wallet.balance} ${wallet.currency}`}</div>
-              </div>
-              <div className="flex space-x-4 text-sm font-medium">
-                <div className="mt-4 flex flex-auto space-x-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                    onClick={() => {
-                      setIsTransferring(false);
-                      setErrorMessage('');
-                      setOpen(true);
-                    }}
-                  >
-                    Add Money
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                    onClick={() => {
-                      setIsTransferring(true);
-                      setErrorMessage('');
-                      setOpen(true);
-                    }}
-                  >
-                    Transfer Money
-                  </button>
-                </div>
-              </div>
-            </form>
+    <div>
+      <div className="my-10 flex font-sans shadow-md">
+        <form className="flex-auto p-6">
+          <div className="flex flex-wrap">
+            <div className="w-full flex-none text-sm font-medium text-gray-500">
+              Main Account
+            </div>
+            <div className="mt-2 w-full flex-none text-sm font-medium text-gray-500">
+              Wallet ID:
+            </div>
+            <h1 className="flex-auto text-lg font-semibold text-gray-700">
+              {wallet._id}
+            </h1>
+            <div className="text-2xl font-bold text-gray-500">{`${wallet.balance} ${wallet.currency}`}</div>
           </div>
-
-          <Modal
-            open={open}
-            setOpen={setOpen}
-            title={
-              isTransferring
-                ? 'Transfer money to other wallet'
-                : 'Add money to your wallet'
-            }
-            body={
-              <>
-                {isTransferring && (
-                  <div>
-                    <SelectContact
-                      title="Destination contact"
-                      contacts={contacts}
-                      contact={destinationWallet}
-                      setContact={setDestinationWallet}
-                    />
-                  </div>
-                )}
-
-                <div className="mt-2">
-                  <label
-                    htmlFor="amount"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Amount
-                  </label>
-                  <input
-                    type="number"
-                    id="amount"
-                    value={amount}
-                    min={0}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="0.00"
-                  />
-                </div>
-              </>
-            }
-            footer={
+          <div className="flex space-x-4 text-sm font-medium">
+            <div className="mt-4 flex flex-auto space-x-4">
               <button
                 type="button"
                 className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                onClick={addTransaction}
+                onClick={() => {
+                  setIsTransferring(false);
+                  setErrorMessage('');
+                  setOpen(true);
+                }}
               >
-                {isTransferring ? 'Transfer' : 'Add'}
+                Add Money
               </button>
-            }
-            errorMessage={errorMessage}
-          />
-        </>
-      ) : (
-        <Loading />
-      )}
-    </>
+              <button
+                type="button"
+                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                onClick={() => {
+                  setIsTransferring(true);
+                  setErrorMessage('');
+                  setOpen(true);
+                }}
+              >
+                Transfer Money
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        title={
+          isTransferring
+            ? 'Transfer money to other wallet'
+            : 'Add money to your wallet'
+        }
+        body={
+          <>
+            {isTransferring && (
+              <div>
+                <SelectContact
+                  title="Destination contact"
+                  contacts={contacts}
+                  contact={destinationWallet}
+                  setContact={setDestinationWallet}
+                />
+              </div>
+            )}
+
+            <div className="mt-2">
+              <label
+                htmlFor="amount"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Amount
+              </label>
+              <input
+                type="number"
+                id="amount"
+                value={amount}
+                min={0}
+                onChange={(e) => setAmount(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="0.00"
+              />
+            </div>
+          </>
+        }
+        footer={
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+            onClick={addTransaction}
+          >
+            {isTransferring ? 'Transfer' : 'Add'}
+          </button>
+        }
+        errorMessage={errorMessage}
+      />
+    </div>
   );
 };
