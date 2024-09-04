@@ -6,7 +6,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/react';
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import { CheckIcon, SelectorIcon } from '@heroicons/react/20/solid';
 
 export const SelectContact = ({ title, contact, setContact, contacts }) => (
   <Listbox value={contact} onChange={setContact}>
