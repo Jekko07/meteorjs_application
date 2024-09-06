@@ -1,5 +1,5 @@
 import React from 'react';
-import { XCircleIcon } from '@heroicons/react/20/solid';
+import  XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 
 export const ErrorAlert = ({ message }) => (
   <div className="rounded-md bg-red-50 p-4">

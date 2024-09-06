@@ -12,20 +12,21 @@
     "@floating-ui/react": "^0.26.19",
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.0.10",
-    "autoprefixer": "^10.4.0",
-    "meteor-node-stubs": "^1.2.9",
-    "postcss": "^8.4.39",
+    "meteor-node-stubs": "^1.2.10",
     "postcss-load-config": "^4.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "simpl-schema": "^3.4.6",
-    "tailwindcss": "^3.1.8"
+    "react-router-dom": "^6.26.1",
+    "simpl-schema": "^3.4.6"
   },
   "devDependencies": {
-    "@quave/eslint-config-quave": "^3.0.0-beta.0",
+    "@quave/eslint-config-quave": "^2.0.0",
+    "autoprefixer": "^10.4.20",
     "husky": "^9.1.5",
+    "postcss": "^8.4.45",
     "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.1.11"
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "tailwindcss": "^3.4.10"
   },
   "eslintConfig": {
     "extends": [
@@ -41,9 +42,8 @@
   },
   "meteor": {
     "mainModule": {
-      "client": "client/main.jsx",
+      "client": "client/main.js",
       "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
+    }
   }
 }

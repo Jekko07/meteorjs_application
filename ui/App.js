@@ -1,8 +1,8 @@
 import React from 'react';
-import { ContactForm } from './ContactForm.jsx';
-import { ContactList } from './ContactList.jsx';
-import { Header } from './Header.jsx';
-import { Wallet } from './Wallet.jsx';
+import { ContactForm } from './ContactForm.js';
+import { ContactList } from './ContactList.js';
+import { Header } from './Header.js';
+import { Wallet } from './Wallet.js';
 
 export const App = () => (
   <div>

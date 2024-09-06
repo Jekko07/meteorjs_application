@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { Modal } from './components/Modal.jsx';
-import { SelectContact } from './components/SelectContact.jsx';
-import { ContactsCollection } from '../api/collections/ContactsCollection';
-import { WalletsCollection } from '../api/collections/WalletsCollection';
-import { Loading } from './components/Loading.jsx';
+import { Modal } from './components/Modal.js';
+import { SelectContact } from './components/SelectContact.js';
+import { ContactsCollection } from '../api/collections/ContactsCollection.js';
+import { WalletsCollection } from '../api/collections/WalletsCollection.js';
+import { Loading } from './components/Loading.js';
 
 export const Wallet = () => {
   const isLoadingContacts = useSubscribe('contacts');
@@ -138,7 +138,7 @@ export const Wallet = () => {
                 <SelectContact
                   title="Destination contact"
                   contacts={contacts}
-                  contact={destinationWallet}
+                  selectedContact={destinationWallet}
                   setContact={setDestinationWallet}
                 />
               </div>

@@ -1,9 +1,9 @@
 import Meteor from 'meteor/meteor';
 import React, { memo, useState } from 'react';
-import { ContactsCollection } from '../api/collections/ContactsCollection';
+import { ContactsCollection } from '../api/collections/ContactsCollection.js';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { ErrorAlert } from './components/ErrorAlert.jsx';
-import { Loading } from './components/Loading.jsx';
+import { ErrorAlert } from './components/ErrorAlert.js';
+import { Loading } from './components/Loading.js';
 
 // Move ContactItem outside the ContactList component
 const ContactItem = memo(({ contact, onArchive }) => (
