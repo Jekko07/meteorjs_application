@@ -1,7 +1,7 @@
 import React from 'react';
-import { Wallet } from './Wallet.js';
-import { ContactForm } from './ContactForm.js';
-import { ContactList } from './ContactList.js';
+import { Wallet } from './Wallet';
+import { ContactForm } from './ContactForm';
+import { ContactList } from './ContactList';
 
 export const Home = () => (
   <>

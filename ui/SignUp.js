@@ -2,27 +2,49 @@ import React, { useState } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import { useNavigate } from 'react-router-dom';
 import { RoutePaths } from './RoutePaths';
+import { ErrorAlert } from './components/ErrorAlert';
+import { SuccessAlert } from './components/SuccessAlert';
 
 export const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const showError = ({ message }) => {
+    setError(message);
+    setTimeout(() => {
+      setError('');
+    }, 5000);
+  };
+
+  const showSuccess = ({ message }) => {
+    setSuccess(message);
+    setTimeout(() => {
+      setSuccess('');
+    }, 5000);
+  };
 
   const signUp = (e) => {
     e.preventDefault();
-    Accounts.createUser({ email, password }, (error) => {
-      if (error) {
-        console.error('Error creating user', error);
-        return;
+    Accounts.createUser({ email, password }, (errorResponse) => {
+      if (errorResponse) {
+        showError({ message: errorResponse.reason });
+      } else {
+        setEmail('');
+        setPassword('');
+        showSuccess({ message: 'Successfully created User' });
+        navigate(RoutePaths.HOME);
       }
-      console.log('Success');
     });
   };
 
   return (
     <div className="flex flex-col items-center">
       <h3 className="px-3 py-2 text-base text-lg font-medium">Sign Up</h3>
-
+      {error && <ErrorAlert message={error} />}
+      {success && <SuccessAlert message={success} />}
       <form className="mt-6">
         <div className="flex flex-col space-y-4">
           <div className="">

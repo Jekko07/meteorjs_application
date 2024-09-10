@@ -1,15 +1,15 @@
-import Meteor from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import React, { memo, useState } from 'react';
-import { ContactsCollection } from '../api/collections/ContactsCollection.js';
+import { ContactsCollection } from '../api/collections/ContactsCollection';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { ErrorAlert } from './components/ErrorAlert.js';
-import { Loading } from './components/Loading.js';
+import { ErrorAlert } from './components/ErrorAlert';
+import { Loading } from './components/Loading';
 
 // Move ContactItem outside the ContactList component
-const ContactItem = memo(({ contact, onArchive }) => (
+const ContactItem = memo(({ contact, onRemove }) => (
   <li className="flex items-center justify-between space-x-3 py-4">
     <div className="flex min-w-0 flex-1 items-center space-x-3">
-      {contact.imageUrl && (
+      {contact.imageUrl && ( 
         <div className="flex-shrink-0">
           <img
             className="h-10 w-10 rounded-full"
@@ -32,10 +32,10 @@ const ContactItem = memo(({ contact, onArchive }) => (
       <div>
         <a
           href="#"
-          onClick={(event) => onArchive(event, contact._id)}
+          onClick={(event) => onRemove(event, contact._id)}
           className="inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50"
         >
-          Archive
+          Delete
         </a>
       </div>
     </div>
@@ -46,7 +46,7 @@ export const ContactList = () => {
   const isLoading = useSubscribe('contacts');
   const contacts = useFind(() =>
     ContactsCollection.find(
-      { archived: { $ne: true } },
+      { removed: { $ne: true } },
       { sort: { createdAt: -1 } }
     )
   );
@@ -60,10 +60,15 @@ export const ContactList = () => {
     }, 5000);
   };
 
-  const archiveContact = (event, _id) => {
+  const removeContact = (event, _id) => {
     event.preventDefault();
-    Meteor.call('contacts.archive', { contactId: _id });
-    showSuccess({ message: 'Contact archived' });
+    Meteor.call('contacts.remove', { contactId: _id }, (error) => {
+      if (error) {
+        console.error('Error removing contact:', error);
+      } else {
+        showSuccess({ message: 'Contact Removed' });
+      }
+    });
   };
 
   if (isLoading()) {
@@ -82,7 +87,7 @@ export const ContactList = () => {
             <ContactItem
               key={contact._id}
               contact={contact}
-              onArchive={archiveContact}
+              onRemove={removeContact}
             />
           ))}
         </ul>
