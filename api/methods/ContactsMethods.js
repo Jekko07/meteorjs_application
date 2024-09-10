@@ -20,8 +20,4 @@ Meteor.methods({
     check(contactId, String);
     return ContactsCollection.remove(contactId);
   },
-  // 'contacts.archive'({ contactId }) {
-  //   check(contactId, String);
-  //   ContactsCollection.update({ _id: contactId }, { $set: { archived: true } });
-  // },
 });

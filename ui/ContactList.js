@@ -9,7 +9,7 @@ import { Loading } from './components/Loading';
 const ContactItem = memo(({ contact, onRemove }) => (
   <li className="flex items-center justify-between space-x-3 py-4">
     <div className="flex min-w-0 flex-1 items-center space-x-3">
-      {contact.imageUrl && ( 
+      {contact.imageUrl && (
         <div className="flex-shrink-0">
           <img
             className="h-10 w-10 rounded-full"
